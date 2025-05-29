@@ -1,0 +1,5 @@
+@Products_HostAddress = https://localhost:7289
+
+GET {{Products_HostAddress}}/api/products
+
+###

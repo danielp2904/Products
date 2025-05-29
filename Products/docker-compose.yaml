@@ -1,0 +1,21 @@
+﻿version: '3.8'
+services:
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Teste@Teste123"
+      ACCEPT_EULA: "Y"
+    networks:
+      - app-network
+  products:
+    build:
+      context: .
+    ports:
+        - "8080:8080"
+        - "8081:8081"
+    networks:
+      - app-network
+networks:
+  app-network:
