@@ -44,7 +44,10 @@ namespace Products.Services.Buy {
         }
 
         public PurchasesView GetPurchasesById(int purchasesId) {
-            var purchases = _dataContext.Purchases.FirstOrDefault(e => e.PurchasesId == purchasesId);
+            var purchases = _dataContext.Purchases.Include(e => e.Client)
+                .Include(e => e.Product)
+                .Include(e => e.PaymentTerms)
+                .FirstOrDefault(e => e.PurchasesId == purchasesId);
             if (purchases == null) {
                 throw new KeyNotFoundException($"Purchases with ID {purchasesId} not found.");
             }
@@ -52,7 +55,9 @@ namespace Products.Services.Buy {
         }
 
         public List<PurchasesView> GetAllPurchasesByCnpjClient(string cnpj) { 
-            var purchases = _dataContext.Purchases
+            var purchases = _dataContext.Purchases.Include(e => e.Client)
+                .Include(e => e.Product)
+                .Include(e => e.PaymentTerms)
                 .Where(e => e.Client.CNPJ == cnpj)
                 .ToList();
             if(purchases == null) {
@@ -62,7 +67,9 @@ namespace Products.Services.Buy {
         }
 
         public List<PurchasesView> GetAllPurchasesByNameClient(string nameClient) {
-            var purchases = _dataContext.Purchases
+            var purchases = _dataContext.Purchases.Include(e => e.Client)
+                .Include(e => e.Product)
+                .Include(e => e.PaymentTerms)
                 .Where(e => e.Client.Name == nameClient)
                 .ToList();
             if (purchases == null) {
